@@ -20,6 +20,9 @@ function resizeCanvas() {
 }
 
 window.addEventListener('resize', resizeCanvas);
+window.addEventListener('orientationchange', () => {
+  setTimeout(resizeCanvas, 200);
+});
 resizeCanvas();
 
 // --- PETAL CLASS ---
@@ -198,11 +201,12 @@ function handleNoClick() {
 
   noClickCount++;
 
-  // Progressively make YES button larger without obscuring NO button
-  const scale = 1 + noClickCount * 0.25;
-  const paddingY = 14 + noClickCount * 4;
-  const paddingX = 38 + noClickCount * 10;
-  const fontSize = 1.3 + noClickCount * 0.15;
+  // Progressively make YES button larger without breaking layout or obscuring NO button on mobile
+  const isMobile = window.innerWidth <= 480;
+  const scale = 1 + noClickCount * (isMobile ? 0.12 : 0.25);
+  const paddingY = (isMobile ? 10 : 14) + noClickCount * (isMobile ? 2 : 4);
+  const paddingX = (isMobile ? 24 : 38) + noClickCount * (isMobile ? 5 : 10);
+  const fontSize = (isMobile ? 1.1 : 1.3) + noClickCount * (isMobile ? 0.08 : 0.15);
 
   yesBtn.style.transform = `scale(${scale})`;
   yesBtn.style.padding = `${paddingY}px ${paddingX}px`;

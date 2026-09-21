@@ -79,6 +79,11 @@ body, html {
   transition: transform 0.3s ease;
 }
 
+.vine-decoration svg {
+  width: 120px;
+  height: 120px;
+}
+
 .top-left { top: 0; left: 0; }
 .top-right { top: 0; right: 0; transform: scaleX(-1); }
 .bottom-left { bottom: 0; left: 0; transform: scaleY(-1); }
@@ -146,6 +151,8 @@ body, html {
   text-shadow: 1px 1px 2px rgba(255, 248, 225, 0.8);
   margin-bottom: 8px;
   line-height: 1.2;
+  word-wrap: break-word;
+  overflow-wrap: break-word;
 }
 
 .romantic-subtitle {
@@ -243,6 +250,7 @@ body, html {
   border: 2px solid #F57F17;
   border-radius: var(--radius-btn);
   padding: 12px 32px;
+  min-height: 48px;
   cursor: pointer;
   box-shadow: 0 4px 12px rgba(245, 127, 23, 0.25);
   transition: transform 0.25s cubic-bezier(0.175, 0.885, 0.32, 1.275), background 0.3s ease, box-shadow 0.3s ease;
@@ -251,6 +259,8 @@ body, html {
   align-items: center;
   justify-content: center;
   gap: 8px;
+  touch-action: manipulation;
+  max-width: 100%;
 }
 
 .yellow-btn:hover {
@@ -391,24 +401,111 @@ body, html {
 }
 
 /* Responsive Styles */
-@media (max-width: 480px) {
+@media (max-width: 600px) {
+  .app-container {
+    width: 94%;
+    margin: 12px auto;
+  }
+
+  .vine-decoration svg {
+    width: 75px;
+    height: 75px;
+  }
+
   .card {
-    padding: 28px 20px;
+    padding: 28px 18px;
+    border-radius: 22px;
   }
+
   .romantic-title {
-    font-size: 2.4rem;
+    font-size: 2.3rem;
   }
+
+  .credit-subtitle {
+    font-size: 1.2rem;
+  }
+
   .romantic-question {
-    font-size: 1.9rem;
+    font-size: 1.8rem;
   }
+
   .poem-verse {
     font-size: 1.4rem;
   }
+
   .font-highlight {
-    font-size: 1.8rem;
+    font-size: 1.75rem;
   }
-  .yellow-btn {
-    padding: 10px 24px;
+
+  .paper-texture {
+    padding: 18px 12px;
+  }
+
+  .buttons-container {
+    gap: 14px;
+  }
+
+  .yes-btn {
+    font-size: 1.2rem;
+    padding: 12px 28px;
+  }
+
+  .no-btn {
     font-size: 1rem;
+    padding: 10px 22px;
+  }
+}
+
+@media (max-width: 380px) {
+  .app-container {
+    width: 96%;
+    margin: 8px auto;
+  }
+
+  .vine-decoration svg {
+    width: 55px;
+    height: 55px;
+    opacity: 0.6;
+  }
+
+  .card {
+    padding: 22px 14px;
+    border-radius: 18px;
+  }
+
+  .flower-header-badge {
+    font-size: 2.2rem;
+    margin-bottom: 6px;
+  }
+
+  .romantic-title {
+    font-size: 1.95rem;
+  }
+
+  .romantic-subtitle {
+    font-size: 1rem;
+    margin-bottom: 20px;
+  }
+
+  .credit-subtitle {
+    font-size: 1.1rem;
+  }
+
+  .romantic-question {
+    font-size: 1.55rem;
+  }
+
+  .romantic-input {
+    padding: 12px 14px;
+    font-size: 1rem;
+  }
+
+  .poem-verse {
+    font-size: 1.25rem;
+    line-height: 1.4;
+  }
+
+  .font-highlight {
+    font-size: 1.5rem;
   }
 }
