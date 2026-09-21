@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>For Freesia Nikol 🌼💛</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Caveat:wght@500;600;700&family=Dancing+Script:wght@600;700&family=Quicksand:wght@500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <!-- Canvas for falling petals & floating particles -->
+  <canvas id="petalCanvas"></canvas>
+
+  <!-- Sun Glow Background Effect -->
+  <div class="sun-glow"></div>
+
+  <!-- Decorative Corner Vines & Freesia SVGs -->
+  <div class="vine-decoration top-left">
+    <svg viewBox="0 0 120 120" width="120" height="120">
+      <path d="M 0,0 Q 60,10 90,90" fill="none" stroke="#7CB342" stroke-width="3" stroke-linecap="round" />
+      <path d="M 20,5 Q 50,30 70,20" fill="none" stroke="#689F38" stroke-width="2" />
+      <!-- Leaf 1 -->
+      <path d="M 30,12 C 20,25 35,35 40,25 C 38,18 32,10 30,12 Z" fill="#8BC34A" opacity="0.8" />
+      <!-- Leaf 2 -->
+      <path d="M 60,35 C 50,50 65,60 70,50 C 68,43 62,35 60,35 Z" fill="#7CB342" opacity="0.8" />
+      <!-- Freesia Flower 1 -->
+      <g transform="translate(85, 85)">
+        <circle cx="0" cy="0" r="6" fill="#FBC02D"/>
+        <path d="M 0,-15 C -5,-8 -5,0 0,0 C 5,0 5,-8 0,-15 Z" fill="#FFE082"/>
+        <path d="M 0,15 C -5,8 -5,0 0,0 C 5,0 5,8 0,15 Z" fill="#FFE082"/>
+        <path d="M -15,0 C -8,-5 0,-5 0,0 C 0,5 -8,5 -15,0 Z" fill="#FFD54F"/>
+        <path d="M 15,0 C 8,-5 0,-5 0,0 C 0,5 8,5 15,0 Z" fill="#FFD54F"/>
+        <path d="M -11,-11 C -5,-5 0,-5 0,0 C -5,0 -5,-5 -11,-11 Z" fill="#FFF59D"/>
+        <path d="M 11,11 C 5,5 0,5 0,0 C 5,0 5,5 11,11 Z" fill="#FFF59D"/>
+        <path d="M -11,11 C -5,5 0,5 0,0 C -5,0 -5,5 -11,11 Z" fill="#FFF59D"/>
+        <path d="M 11,-11 C 5,-5 0,-5 0,0 C 5,0 5,-5 11,-11 Z" fill="#FFF59D"/>
+        <circle cx="0" cy="0" r="4" fill="#F57F17"/>
+      </g>
+    </svg>
+  </div>
+
+  <div class="vine-decoration top-right">
+    <svg viewBox="0 0 120 120" width="120" height="120">
+      <path d="M 120,0 Q 60,10 30,90" fill="none" stroke="#7CB342" stroke-width="3" stroke-linecap="round" />
+      <path d="M 90,15 C 100,25 85,35 80,25 C 82,18 88,10 90,15 Z" fill="#8BC34A" opacity="0.8" />
+      <g transform="translate(30, 85)">
+        <circle cx="0" cy="0" r="6" fill="#FBC02D"/>
+        <path d="M 0,-15 C -5,-8 -5,0 0,0 C 5,0 5,-8 0,-15 Z" fill="#FFE082"/>
+        <path d="M 0,15 C -5,8 -5,0 0,0 C 5,0 5,8 0,15 Z" fill="#FFE082"/>
+        <path d="M -15,0 C -8,-5 0,-5 0,0 C 0,5 -8,5 -15,0 Z" fill="#FFD54F"/>
+        <path d="M 15,0 C 8,-5 0,-5 0,0 C 0,5 8,5 15,0 Z" fill="#FFD54F"/>
+        <circle cx="0" cy="0" r="4" fill="#F57F17"/>
+      </g>
+    </svg>
+  </div>
+
+  <div class="vine-decoration bottom-left">
+    <svg viewBox="0 0 120 120" width="120" height="120">
+      <path d="M 0,120 Q 60,110 90,30" fill="none" stroke="#7CB342" stroke-width="3" stroke-linecap="round" />
+      <path d="M 30,108 C 20,95 35,85 40,95 C 38,102 32,110 30,108 Z" fill="#8BC34A" opacity="0.8" />
+      <g transform="translate(85, 30)">
+        <circle cx="0" cy="0" r="6" fill="#FBC02D"/>
+        <path d="M 0,-15 C -5,-8 -5,0 0,0 C 5,0 5,-8 0,-15 Z" fill="#FFE082"/>
+        <path d="M 0,15 C -5,8 -5,0 0,0 C 5,0 5,8 0,15 Z" fill="#FFE082"/>
+        <path d="M -15,0 C -8,-5 0,-5 0,0 C 0,5 -8,5 -15,0 Z" fill="#FFD54F"/>
+        <path d="M 15,0 C 8,-5 0,-5 0,0 C 0,5 8,5 15,0 Z" fill="#FFD54F"/>
+        <circle cx="0" cy="0" r="4" fill="#F57F17"/>
+      </g>
+    </svg>
+  </div>
+
+  <div class="vine-decoration bottom-right">
+    <svg viewBox="0 0 120 120" width="120" height="120">
+      <path d="M 120,120 Q 60,110 30,30" fill="none" stroke="#7CB342" stroke-width="3" stroke-linecap="round" />
+      <path d="M 90,105 C 100,95 85,85 80,95 C 82,102 88,110 90,105 Z" fill="#8BC34A" opacity="0.8" />
+      <g transform="translate(30, 30)">
+        <circle cx="0" cy="0" r="6" fill="#FBC02D"/>
+        <path d="M 0,-15 C -5,-8 -5,0 0,0 C 5,0 5,-8 0,-15 Z" fill="#FFE082"/>
+        <path d="M 0,15 C -5,8 -5,0 0,0 C 5,0 5,8 0,15 Z" fill="#FFE082"/>
+        <path d="M -15,0 C -8,-5 0,-5 0,0 C 0,5 -8,5 -15,0 Z" fill="#FFD54F"/>
+        <path d="M 15,0 C 8,-5 0,-5 0,0 C 0,5 8,5 15,0 Z" fill="#FFD54F"/>
+        <circle cx="0" cy="0" r="4" fill="#F57F17"/>
+      </g>
+    </svg>
+  </div>
+
+  <main class="app-container">
+    <!-- LOGIN SCREEN -->
+    <section id="loginScreen" class="card fade-in">
+      <div class="flower-header-badge">🌼</div>
+      <h1 class="romantic-title">For Freesia Nikol 🌼</h1>
+      <p class="romantic-subtitle">I made a little something for you…</p>
+
+      <form id="loginForm" class="login-form" onsubmit="handleLogin(event)">
+        <div class="input-wrapper">
+          <input
+            type="password"
+            id="passwordInput"
+            class="romantic-input"
+            placeholder="Enter password..."
+            autocomplete="current-password"
+            required
+          />
+        </div>
+        <div id="errorMessage" class="error-message hidden">
+          Hmm… that’s not it, baby. Try again. 💛
+        </div>
+        <button type="submit" class="yellow-btn enter-btn">
+          Enter 🌼
+        </button>
+      </form>
+    </section>
+
+    <!-- MAIN PROPOSAL SCREEN -->
+    <section id="mainScreen" class="card hidden">
+      <div class="flower-header-badge floating-flower">🌼</div>
+      <h1 class="romantic-title">Freesia Nikol 🌼</h1>
+      <h2 id="questionText" class="romantic-question">Will you be my girlfriend? 💛</h2>
+
+      <div class="buttons-container">
+        <button id="yesBtn" class="yellow-btn yes-btn" onclick="handleYesClick()">
+          YES 🌼
+        </button>
+        <button id="noBtn" class="yellow-btn no-btn" onclick="handleNoClick()">
+          NO 🥺
+        </button>
+      </div>
+    </section>
+
+    <!-- CELEBRATION / POEM SCREEN -->
+    <section id="celebrationScreen" class="card hidden celebration-card">
+      <div class="flower-header-badge pulse-flower">🌼💛🌼</div>
+
+      <div class="poem-container">
+        <div class="poem-card paper-texture">
+          <p class="poem-verse">
+            Maybe it started with a simple hello,<br>
+            but somehow you became someone I never want to let go.<br>
+            If I could choose one person to laugh with,<br>
+            to make memories with,<br>
+            and to keep close through every season,<br>
+            I’d choose you.<br><br>
+            So if your answer is yes,<br>
+            let this be the beginning<br>
+            of something beautiful for us. 💛
+          </p>
+        </div>
+
+        <div class="thank-you-card paper-texture">
+          <h2 class="romantic-title font-highlight">
+            Thank you for choosing me, Freesia Nikol. 🌼💛
+          </h2>
+        </div>
+
+        <div class="final-promise-card paper-texture">
+          <p class="poem-verse promise-text">
+            From this moment on,<br>
+            I hope I can be someone who makes you smile,<br>
+            someone you can run to,<br>
+            and someone who stays. 🌼
+          </p>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <script src="script.js"></script>
+</body>
+</html>

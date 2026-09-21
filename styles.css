@@ -1,0 +1,406 @@
+/* Modern CSS Reset & Root Theme Variables */
+:root {
+  --color-soft-yellow: #FFF9C4;
+  --color-pastel-yellow: #FFFDE7;
+  --color-warm-gold: #FBC02D;
+  --color-bright-gold: #FFB300;
+  --color-dark-gold: #F57F17;
+  --color-cream: #FFFEF7;
+  --color-cream-card: #FFFDF5;
+  --color-green-leaf: #7CB342;
+  --color-soft-green: #AED581;
+  --color-text-dark: #4E342E;
+  --color-text-subtle: #795548;
+  --color-white: #FFFFFF;
+  --color-error: #E65100;
+  --shadow-soft: 0 10px 30px rgba(245, 127, 23, 0.12);
+  --shadow-glow: 0 0 25px rgba(251, 192, 45, 0.35);
+  --radius-card: 28px;
+  --radius-btn: 50px;
+}
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body, html {
+  width: 100%;
+  height: 100%;
+  overflow-x: hidden;
+  font-family: 'Quicksand', -apple-system, BlinkMacSystemFont, sans-serif;
+  background: linear-gradient(135deg, #FFFDE7 0%, #FFF8E1 50%, #FFF3E0 100%);
+  color: var(--color-text-dark);
+  position: relative;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+}
+
+/* Canvas for falling petals background */
+#petalCanvas {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  pointer-events: none;
+  z-index: 1;
+}
+
+/* Soft Glowing Sun Background Effect */
+.sun-glow {
+  position: fixed;
+  top: -150px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 600px;
+  height: 600px;
+  background: radial-gradient(circle, rgba(255, 235, 59, 0.4) 0%, rgba(255, 248, 225, 0) 70%);
+  border-radius: 50%;
+  pointer-events: none;
+  z-index: 0;
+  animation: pulseGlow 8s ease-in-out infinite alternate;
+}
+
+@keyframes pulseGlow {
+  0% { opacity: 0.6; transform: translateX(-50%) scale(0.9); }
+  100% { opacity: 1; transform: translateX(-50%) scale(1.1); }
+}
+
+/* Decorative Corner Vines */
+.vine-decoration {
+  position: fixed;
+  z-index: 2;
+  pointer-events: none;
+  opacity: 0.85;
+  transition: transform 0.3s ease;
+}
+
+.top-left { top: 0; left: 0; }
+.top-right { top: 0; right: 0; transform: scaleX(-1); }
+.bottom-left { bottom: 0; left: 0; transform: scaleY(-1); }
+.bottom-right { bottom: 0; right: 0; transform: scale(-1, -1); }
+
+/* Main Container */
+.app-container {
+  position: relative;
+  z-index: 10;
+  width: 90%;
+  max-width: 580px;
+  margin: 20px auto;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+/* Glass & Paper Aesthetic Card */
+.card {
+  width: 100%;
+  background: rgba(255, 253, 245, 0.92);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  border: 2px solid rgba(251, 192, 45, 0.25);
+  border-radius: var(--radius-card);
+  padding: 40px 32px;
+  box-shadow: var(--shadow-soft);
+  text-align: center;
+  transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+  position: relative;
+}
+
+.card:hover {
+  box-shadow: var(--shadow-glow), var(--shadow-soft);
+}
+
+/* Flower Badge */
+.flower-header-badge {
+  font-size: 2.8rem;
+  margin-bottom: 12px;
+  display: inline-block;
+  animation: gentleFloat 4s ease-in-out infinite;
+}
+
+@keyframes gentleFloat {
+  0%, 100% { transform: translateY(0) rotate(0deg); }
+  50% { transform: translateY(-8px) rotate(5deg); }
+}
+
+.pulse-flower {
+  animation: pulseScale 2s ease-in-out infinite;
+}
+
+@keyframes pulseScale {
+  0%, 100% { transform: scale(1); }
+  50% { transform: scale(1.1); }
+}
+
+/* Romantic Titles & Typography */
+.romantic-title {
+  font-family: 'Caveat', 'Dancing Script', cursive;
+  font-size: 3rem;
+  font-weight: 700;
+  color: var(--color-dark-gold);
+  text-shadow: 1px 1px 2px rgba(255, 248, 225, 0.8);
+  margin-bottom: 8px;
+  line-height: 1.2;
+}
+
+.romantic-subtitle {
+  font-size: 1.15rem;
+  color: var(--color-text-subtle);
+  font-weight: 600;
+  margin-bottom: 28px;
+  font-style: italic;
+}
+
+.romantic-question {
+  font-family: 'Caveat', cursive;
+  font-size: 2.4rem;
+  color: var(--color-text-dark);
+  margin-top: 10px;
+  margin-bottom: 30px;
+}
+
+/* Forms & Inputs */
+.login-form {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 16px;
+  width: 100%;
+  max-width: 340px;
+  margin: 0 auto;
+}
+
+.input-wrapper {
+  width: 100%;
+  position: relative;
+}
+
+.romantic-input {
+  width: 100%;
+  padding: 14px 20px;
+  font-family: 'Quicksand', sans-serif;
+  font-size: 1.1rem;
+  font-weight: 600;
+  text-align: center;
+  color: var(--color-text-dark);
+  background-color: var(--color-cream);
+  border: 2px solid #FFE082;
+  border-radius: 20px;
+  outline: none;
+  transition: all 0.3s ease;
+  box-shadow: inset 0 2px 5px rgba(0,0,0,0.03);
+}
+
+.romantic-input:focus {
+  border-color: var(--color-warm-gold);
+  box-shadow: 0 0 12px rgba(251, 192, 45, 0.4), inset 0 2px 5px rgba(0,0,0,0.02);
+  background-color: #FFFFFF;
+}
+
+.romantic-input::placeholder {
+  color: #C0CA33;
+  font-weight: 500;
+  opacity: 0.7;
+}
+
+.error-message {
+  color: var(--color-error);
+  font-size: 0.95rem;
+  font-weight: 700;
+  background-color: #FFF3E0;
+  padding: 8px 16px;
+  border-radius: 12px;
+  border: 1px solid #FFE082;
+  animation: shake 0.4s ease-in-out;
+}
+
+@keyframes shake {
+  0%, 100% { transform: translateX(0); }
+  20%, 60% { transform: translateX(-6px); }
+  40%, 80% { transform: translateX(6px); }
+}
+
+/* Yellow Romantic Buttons */
+.yellow-btn {
+  font-family: 'Quicksand', sans-serif;
+  font-weight: 700;
+  font-size: 1.15rem;
+  color: #3E2723;
+  background: linear-gradient(180deg, #FFD54F 0%, #FBC02D 100%);
+  border: 2px solid #F57F17;
+  border-radius: var(--radius-btn);
+  padding: 12px 32px;
+  cursor: pointer;
+  box-shadow: 0 4px 12px rgba(245, 127, 23, 0.25);
+  transition: transform 0.25s cubic-bezier(0.175, 0.885, 0.32, 1.275), background 0.3s ease, box-shadow 0.3s ease;
+  outline: none;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+}
+
+.yellow-btn:hover {
+  transform: translateY(-3px) scale(1.03);
+  background: linear-gradient(180deg, #FFE082 0%, #FFB300 100%);
+  box-shadow: 0 8px 20px rgba(245, 127, 23, 0.35);
+}
+
+.yellow-btn:active {
+  transform: translateY(1px) scale(0.98);
+}
+
+.enter-btn {
+  width: 100%;
+  margin-top: 8px;
+}
+
+/* Proposal Buttons Container */
+.buttons-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 20px;
+  flex-wrap: wrap;
+  margin-top: 20px;
+  min-height: 120px;
+}
+
+.yes-btn {
+  background: linear-gradient(180deg, #FFF176 0%, #FBC02D 100%);
+  font-size: 1.3rem;
+  padding: 14px 38px;
+  transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+.no-btn {
+  background: linear-gradient(180deg, #FFF9C4 0%, #FFE082 100%);
+  border-color: #FBC02D;
+  color: #5D4037;
+  font-size: 1.1rem;
+  padding: 12px 28px;
+  opacity: 0.9;
+}
+
+.no-btn:hover {
+  background: linear-gradient(180deg, #FFFDE7 0%, #FFD54F 100%);
+}
+
+/* Celebration & Poem Layout */
+.celebration-card {
+  max-width: 650px;
+  padding: 36px 28px;
+}
+
+.poem-container {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+  margin-top: 16px;
+}
+
+.paper-texture {
+  background: #FFFDF5;
+  border: 1px dashed rgba(251, 192, 45, 0.5);
+  border-radius: 20px;
+  padding: 24px 20px;
+  box-shadow: inset 0 0 15px rgba(255, 248, 225, 0.8), 0 4px 10px rgba(0,0,0,0.02);
+  position: relative;
+  overflow: hidden;
+}
+
+.paper-texture::before {
+  content: '🌼';
+  position: absolute;
+  top: 10px;
+  right: 12px;
+  font-size: 1.2rem;
+  opacity: 0.4;
+}
+
+.poem-verse {
+  font-family: 'Caveat', cursive;
+  font-size: 1.65rem;
+  line-height: 1.5;
+  color: #4E342E;
+  text-align: center;
+  font-weight: 600;
+}
+
+.font-highlight {
+  font-size: 2.2rem;
+  color: var(--color-dark-gold);
+  margin: 0;
+}
+
+.promise-text {
+  font-size: 1.6rem;
+  color: #5D4037;
+}
+
+/* Utility Classes */
+.hidden {
+  display: none !important;
+}
+
+.fade-in {
+  animation: fadeIn 0.8s ease forwards;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(15px) scale(0.98);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+/* Floating Heart / Flower particle effect during celebration */
+.floating-element {
+  position: fixed;
+  pointer-events: none;
+  z-index: 100;
+  animation: floatUpAndFade 3s ease-out forwards;
+}
+
+@keyframes floatUpAndFade {
+  0% {
+    opacity: 1;
+    transform: translateY(0) scale(0.8) rotate(0deg);
+  }
+  100% {
+    opacity: 0;
+    transform: translateY(-120px) scale(1.4) rotate(45deg);
+  }
+}
+
+/* Responsive Styles */
+@media (max-width: 480px) {
+  .card {
+    padding: 28px 20px;
+  }
+  .romantic-title {
+    font-size: 2.4rem;
+  }
+  .romantic-question {
+    font-size: 1.9rem;
+  }
+  .poem-verse {
+    font-size: 1.4rem;
+  }
+  .font-highlight {
+    font-size: 1.8rem;
+  }
+  .yellow-btn {
+    padding: 10px 24px;
+    font-size: 1rem;
+  }
+}
