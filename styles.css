@@ -1,359 +1,433 @@
-/* Modern CSS Reset & Root Theme Variables */
-:root {
-  --color-soft-yellow: #FFF9C4;
-  --color-pastel-yellow: #FFFDE7;
-  --color-warm-gold: #FBC02D;
-  --color-bright-gold: #FFB300;
-  --color-dark-gold: #F57F17;
-  --color-cream: #FFFEF7;
-  --color-cream-card: #FFFDF5;
-  --color-green-leaf: #7CB342;
-  --color-soft-green: #AED581;
-  --color-text-dark: #4E342E;
-  --color-text-subtle: #795548;
-  --color-white: #FFFFFF;
-  --color-error: #E65100;
-  --shadow-soft: 0 10px 30px rgba(245, 127, 23, 0.12);
-  --shadow-glow: 0 0 25px rgba(251, 192, 45, 0.35);
-  --radius-card: 28px;
-  --radius-btn: 50px;
-}
-
+/* --- RESET & GLOBALS --- */
 * {
   box-sizing: border-box;
   margin: 0;
   padding: 0;
 }
 
-body, html {
-  width: 100%;
-  height: 100%;
-  overflow-x: hidden;
-  font-family: 'Quicksand', -apple-system, BlinkMacSystemFont, sans-serif;
-  background: linear-gradient(135deg, #FFFDE7 0%, #FFF8E1 50%, #FFF3E0 100%);
-  color: var(--color-text-dark);
-  position: relative;
+body {
+  font-family: 'Quicksand', sans-serif;
+  background-color: #FFFDE7; /* Soft cream background */
+  color: #5D4037;
+  min-height: 100vh;
   display: flex;
   justify-content: center;
   align-items: center;
-  min-height: 100vh;
+  overflow-x: hidden;
+  position: relative;
 }
 
-/* Canvas for falling petals background */
+/* --- CANVAS & BACKGROUND GLOW --- */
 #petalCanvas {
   position: fixed;
   top: 0;
   left: 0;
-  width: 100vw;
-  height: 100vh;
+  width: 100%;
+  height: 100%;
   pointer-events: none;
   z-index: 1;
 }
 
-/* Soft Glowing Sun Background Effect */
 .sun-glow {
   position: fixed;
-  top: -150px;
+  top: -20vh;
   left: 50%;
   transform: translateX(-50%);
-  width: 600px;
-  height: 600px;
-  background: radial-gradient(circle, rgba(255, 235, 59, 0.4) 0%, rgba(255, 248, 225, 0) 70%);
-  border-radius: 50%;
+  width: 120vw;
+  height: 80vh;
+  background: radial-gradient(circle, rgba(255, 245, 157, 0.6) 0%, rgba(255, 236, 179, 0.3) 40%, rgba(255, 253, 231, 0) 80%);
   pointer-events: none;
   z-index: 0;
-  animation: pulseGlow 8s ease-in-out infinite alternate;
 }
 
-@keyframes pulseGlow {
-  0% { opacity: 0.6; transform: translateX(-50%) scale(0.9); }
-  100% { opacity: 1; transform: translateX(-50%) scale(1.1); }
+/* --- FLOATING BURST ELEMENTS --- */
+.floating-element {
+  position: fixed;
+  pointer-events: none;
+  z-index: 20;
+  transform: translate(-50%, -50%);
+  animation: floatUp 3s ease-out forwards;
 }
 
-/* Decorative Corner Vines */
+@keyframes floatUp {
+  0% { opacity: 1; transform: translate(-50%, 0) scale(0.8); }
+  100% { opacity: 0; transform: translate(-50%, -80px) scale(1.3); }
+}
+
+/* --- CORNER VINES --- */
 .vine-decoration {
   position: fixed;
-  z-index: 2;
   pointer-events: none;
+  z-index: 2;
   opacity: 0.85;
-  transition: transform 0.3s ease;
-}
-
-.vine-decoration svg {
-  width: 120px;
-  height: 120px;
 }
 
 .top-left { top: 0; left: 0; }
-.top-right { top: 0; right: 0; transform: scaleX(-1); }
-.bottom-left { bottom: 0; left: 0; transform: scaleY(-1); }
-.bottom-right { bottom: 0; right: 0; transform: scale(-1, -1); }
+.top-right { top: 0; right: 0; }
+.bottom-left { bottom: 0; left: 0; }
+.bottom-right { bottom: 0; right: 0; }
 
-/* Main Container */
+/* --- MAIN CONTAINER --- */
 .app-container {
   position: relative;
   z-index: 10;
-  width: 90%;
-  max-width: 580px;
-  margin: 20px auto;
+  width: 100%;
+  max-width: 520px;
+  padding: 20px;
   display: flex;
   justify-content: center;
   align-items: center;
 }
 
-/* Glass & Paper Aesthetic Card */
+/* --- CARDS & GLASS/PAPER STYLING --- */
 .card {
+  background: rgba(255, 255, 255, 0.92);
+  backdrop-filter: blur(8px);
+  border: 2px solid #FFE082;
+  border-radius: 28px;
+  padding: 36px 28px;
   width: 100%;
-  background: rgba(255, 253, 245, 0.92);
-  backdrop-filter: blur(10px);
-  -webkit-backdrop-filter: blur(10px);
-  border: 2px solid rgba(251, 192, 45, 0.25);
-  border-radius: var(--radius-card);
-  padding: 40px 32px;
-  box-shadow: var(--shadow-soft);
   text-align: center;
-  transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+  box-shadow: 0 12px 32px rgba(251, 192, 45, 0.15), 0 4px 12px rgba(0, 0, 0, 0.03);
+  transition: all 0.4s ease;
   position: relative;
 }
 
-.card:hover {
-  box-shadow: var(--shadow-glow), var(--shadow-soft);
+.card.hidden {
+  display: none !important;
 }
 
-/* Flower Badge */
-.flower-header-badge {
-  font-size: 2.8rem;
-  margin-bottom: 12px;
-  display: inline-block;
-  animation: gentleFloat 4s ease-in-out infinite;
+.fade-in {
+  animation: fadeIn 0.5s ease forwards;
 }
 
-@keyframes gentleFloat {
-  0%, 100% { transform: translateY(0) rotate(0deg); }
-  50% { transform: translateY(-8px) rotate(5deg); }
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(15px); }
+  to { opacity: 1; transform: translateY(0); }
 }
 
-.pulse-flower {
-  animation: pulseScale 2s ease-in-out infinite;
-}
-
-@keyframes pulseScale {
-  0%, 100% { transform: scale(1); }
-  50% { transform: scale(1.1); }
-}
-
-/* Romantic Titles & Typography */
+/* --- TYPOGRAPHY --- */
 .romantic-title {
-  font-family: 'Caveat', 'Dancing Script', cursive;
-  font-size: 3rem;
+  font-family: 'Caveat', cursive;
+  font-size: 2.8rem;
   font-weight: 700;
-  color: var(--color-dark-gold);
-  text-shadow: 1px 1px 2px rgba(255, 248, 225, 0.8);
-  margin-bottom: 8px;
-  line-height: 1.2;
-  word-wrap: break-word;
-  overflow-wrap: break-word;
+  color: #F57F17; /* Golden yellow tone */
+  margin-bottom: 12px;
+  text-shadow: 1px 1px 2px rgba(255, 245, 157, 0.8);
 }
 
 .romantic-subtitle {
   font-size: 1.15rem;
-  color: var(--color-text-subtle);
-  font-weight: 600;
-  margin-bottom: 28px;
-  font-style: italic;
+  color: #795548;
+  margin-bottom: 24px;
 }
 
 .credit-subtitle {
-  font-size: 1.35rem;
-  color: var(--color-dark-gold);
-  font-weight: 700;
-  margin-top: 15px;
-  font-style: normal;
+  font-size: 1.3rem;
+  color: #E64A19;
+  font-weight: 600;
+  margin-top: 10px;
 }
 
 .romantic-question {
-  font-family: 'Caveat', cursive;
-  font-size: 2.4rem;
-  color: var(--color-text-dark);
+  font-family: 'Dancing Script', cursive;
+  font-size: 2.2rem;
+  color: #E65100;
   margin-top: 10px;
-  margin-bottom: 30px;
+  margin-bottom: 28px;
 }
 
-/* Forms & Inputs */
+.flower-header-badge {
+  font-size: 2.5rem;
+  margin-bottom: 8px;
+}
+
+/* --- FORM & INPUTS --- */
 .login-form {
   display: flex;
   flex-direction: column;
-  align-items: center;
   gap: 16px;
-  width: 100%;
-  max-width: 340px;
-  margin: 0 auto;
+  align-items: center;
 }
 
 .input-wrapper {
   width: 100%;
-  position: relative;
+  max-width: 320px;
 }
 
 .romantic-input {
   width: 100%;
   padding: 14px 20px;
-  font-family: 'Quicksand', sans-serif;
-  font-size: 1.1rem;
-  font-weight: 600;
-  text-align: center;
-  color: var(--color-text-dark);
-  background-color: var(--color-cream);
-  border: 2px solid #FFE082;
   border-radius: 20px;
+  border: 2px solid #FFD54F;
+  background-color: #FFFDE7;
+  font-size: 1.1rem;
+  color: #5D4037;
+  text-align: center;
   outline: none;
   transition: all 0.3s ease;
-  box-shadow: inset 0 2px 5px rgba(0,0,0,0.03);
 }
 
 .romantic-input:focus {
-  border-color: var(--color-warm-gold);
-  box-shadow: 0 0 12px rgba(251, 192, 45, 0.4), inset 0 2px 5px rgba(0,0,0,0.02);
+  border-color: #FBC02D;
+  box-shadow: 0 0 12px rgba(251, 192, 45, 0.4);
   background-color: #FFFFFF;
 }
 
-.romantic-input::placeholder {
-  color: #C0CA33;
-  font-weight: 500;
-  opacity: 0.7;
-}
-
 .error-message {
-  color: var(--color-error);
-  font-size: 0.95rem;
-  font-weight: 700;
-  background-color: #FFF3E0;
+  color: #D84315;
+  font-weight: 600;
+  font-size: 1rem;
+  background-color: #FFEBEE;
+  border: 1px solid #FFCDD2;
   padding: 8px 16px;
   border-radius: 12px;
-  border: 1px solid #FFE082;
-  animation: shake 0.4s ease-in-out;
+  width: 100%;
+  max-width: 320px;
 }
 
-@keyframes shake {
-  0%, 100% { transform: translateX(0); }
-  20%, 60% { transform: translateX(-6px); }
-  40%, 80% { transform: translateX(6px); }
+.error-message.hidden {
+  display: none;
 }
 
-/* Yellow Romantic Buttons */
+/* --- BUTTONS --- */
+.button-wrapper {
+  margin-top: 20px;
+  display: flex;
+  justify-content: center;
+}
+
 .yellow-btn {
+  background: linear-gradient(135deg, #FFE082 0%, #FBC02D 100%);
+  color: #4E342E;
   font-family: 'Quicksand', sans-serif;
   font-weight: 700;
-  font-size: 1.15rem;
-  color: #3E2723;
-  background: linear-gradient(180deg, #FFD54F 0%, #FBC02D 100%);
-  border: 2px solid #F57F17;
-  border-radius: var(--radius-btn);
-  padding: 12px 32px;
-  min-height: 48px;
+  font-size: 1.2rem;
+  padding: 14px 36px;
+  border: none;
+  border-radius: 25px;
   cursor: pointer;
-  box-shadow: 0 4px 12px rgba(245, 127, 23, 0.25);
-  transition: transform 0.25s cubic-bezier(0.175, 0.885, 0.32, 1.275), background 0.3s ease, box-shadow 0.3s ease;
-  outline: none;
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  gap: 8px;
-  touch-action: manipulation;
-  max-width: 100%;
+  box-shadow: 0 6px 18px rgba(251, 192, 45, 0.35);
+  transition: transform 0.2s cubic-bezier(0.175, 0.885, 0.32, 1.275), box-shadow 0.2s ease, background 0.3s ease;
+  min-height: 48px;
 }
 
 .yellow-btn:hover {
-  transform: translateY(-3px) scale(1.03);
-  background: linear-gradient(180deg, #FFE082 0%, #FFB300 100%);
-  box-shadow: 0 8px 20px rgba(245, 127, 23, 0.35);
+  transform: translateY(-2px) scale(1.03);
+  box-shadow: 0 8px 22px rgba(251, 192, 45, 0.5);
+  background: linear-gradient(135deg, #FFD54F 0%, #F57F17 100%);
+  color: #3E2723;
 }
 
 .yellow-btn:active {
   transform: translateY(1px) scale(0.98);
 }
 
-.enter-btn {
-  width: 100%;
-  margin-top: 8px;
-}
-
-/* Proposal Buttons Container */
 .buttons-container {
   display: flex;
   justify-content: center;
   align-items: center;
-  gap: 20px;
+  gap: 16px;
   flex-wrap: wrap;
-  margin-top: 20px;
-  min-height: 120px;
-}
-
-.yes-btn {
-  background: linear-gradient(180deg, #FFF176 0%, #FBC02D 100%);
-  font-size: 1.3rem;
-  padding: 14px 38px;
-  transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+  margin-top: 15px;
+  min-height: 80px;
 }
 
 .no-btn {
-  background: linear-gradient(180deg, #FFF9C4 0%, #FFE082 100%);
-  border-color: #FBC02D;
-  color: #5D4037;
+  background: linear-gradient(135deg, #FFF59D 0%, #FFE082 100%);
+  color: #6D4C41;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+}
+
+/* --- MESSAGE SEQUENCE & ANIMATIONS --- */
+.message-title {
+  min-height: 80px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.message-animation {
+  font-size: 3rem;
+  height: 60px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-bottom: 10px;
+}
+
+.sweet-bounce {
+  animation: sweetBounce 1.2s infinite alternate ease-in-out;
+}
+
+@keyframes sweetBounce {
+  0% { transform: scale(1) translateY(0); }
+  100% { transform: scale(1.2) translateY(-10px); }
+}
+
+.flower-spin {
+  animation: flowerSpin 4s infinite linear;
+}
+
+@keyframes flowerSpin {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+
+.laugh-wiggle {
+  animation: laughWiggle 0.4s infinite alternate ease-in-out;
+}
+
+@keyframes laughWiggle {
+  0% { transform: rotate(-10deg) scale(1); }
+  100% { transform: rotate(10deg) scale(1.15); }
+}
+
+.music-float {
+  animation: musicFloat 1.5s infinite ease-in-out alternate;
+}
+
+@keyframes musicFloat {
+  0% { transform: translateY(0) scale(1); }
+  100% { transform: translateY(-12px) scale(1.2); }
+}
+
+.blush-glow {
+  animation: blushGlow 1s infinite alternate ease-in-out;
+}
+
+@keyframes blushGlow {
+  0% { filter: drop-shadow(0 0 2px #FF8A80); transform: scale(1); }
+  100% { filter: drop-shadow(0 0 15px #FF5252); transform: scale(1.2); }
+}
+
+.heart-pulse {
+  animation: heartPulse 0.8s infinite alternate cubic-bezier(0.215, 0.61, 0.355, 1);
+}
+
+@keyframes heartPulse {
+  0% { transform: scale(1); }
+  100% { transform: scale(1.35); }
+}
+
+/* --- FULL SCREEN FLOWER OVERLAY --- */
+.flower-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background: radial-gradient(circle, #FFFDE7 0%, #FFF59D 60%, #FFE082 100%);
+  z-index: 1000;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  overflow: hidden;
+}
+
+.flower-overlay.hidden {
+  display: none !important;
+}
+
+.overlay-flower-garden {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+}
+
+.blooming-flower {
+  position: absolute;
+  animation: bloomPop 0.8s ease-out forwards;
+}
+
+@keyframes bloomPop {
+  0% { transform: scale(0) rotate(-30deg); opacity: 0; }
+  70% { transform: scale(1.2) rotate(10deg); opacity: 1; }
+  100% { transform: scale(1) rotate(0deg); opacity: 1; }
+}
+
+.hidden-popup {
+  position: relative;
+  z-index: 1005;
+  background: rgba(255, 255, 255, 0.95);
+  border: 3px solid #FBC02D;
+  border-radius: 20px;
+  padding: 16px 32px;
+  box-shadow: 0 10px 30px rgba(245, 127, 23, 0.3);
+  animation: popIn 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
+}
+
+.hidden-popup.hidden {
+  display: none !important;
+}
+
+.popup-text {
+  font-family: 'Caveat', cursive;
+  font-size: 2.2rem;
+  color: #E65100;
+  font-weight: 700;
+}
+
+.hidden-click-btn {
+  position: absolute;
+  z-index: 1010;
+  background: linear-gradient(135deg, #FBC02D 0%, #F57F17 100%);
+  color: #FFFFFF;
+  font-family: 'Quicksand', sans-serif;
+  font-weight: 700;
   font-size: 1.1rem;
-  padding: 12px 28px;
-  opacity: 0.9;
+  padding: 12px 24px;
+  border: 2px solid #FFFFFF;
+  border-radius: 20px;
+  cursor: pointer;
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.2);
 }
 
-.no-btn:hover {
-  background: linear-gradient(180deg, #FFFDE7 0%, #FFD54F 100%);
+.hidden-click-btn.hidden {
+  display: none !important;
 }
 
-/* Celebration & Poem Layout */
+/* --- CELEBRATION CARDS --- */
 .celebration-card {
-  max-width: 650px;
-  padding: 36px 28px;
+  max-width: 580px;
+}
+
+.celebration-main-title {
+  font-size: 3rem;
+  color: #E65100;
+  margin-bottom: 20px;
 }
 
 .poem-container {
   display: flex;
   flex-direction: column;
-  gap: 24px;
-  margin-top: 16px;
+  gap: 20px;
 }
 
 .paper-texture {
-  background: #FFFDF5;
-  border: 1px dashed rgba(251, 192, 45, 0.5);
-  border-radius: 20px;
-  padding: 24px 20px;
-  box-shadow: inset 0 0 15px rgba(255, 248, 225, 0.8), 0 4px 10px rgba(0,0,0,0.02);
-  position: relative;
-  overflow: hidden;
-}
-
-.paper-texture::before {
-  content: '🌼';
-  position: absolute;
-  top: 10px;
-  right: 12px;
-  font-size: 1.2rem;
-  opacity: 0.4;
+  background: #FFFDE7;
+  background-image: radial-gradient(#FFE082 0.75px, transparent 0.75px);
+  background-size: 12px 12px;
+  border: 1px dashed #FBC02D;
+  border-radius: 16px;
+  padding: 20px;
+  box-shadow: inset 0 0 10px rgba(251, 192, 45, 0.1);
 }
 
 .poem-verse {
   font-family: 'Caveat', cursive;
-  font-size: 1.65rem;
+  font-size: 1.7rem;
   line-height: 1.5;
   color: #4E342E;
-  text-align: center;
-  font-weight: 600;
 }
 
 .font-highlight {
-  font-size: 2.2rem;
-  color: var(--color-dark-gold);
-  margin: 0;
+  font-size: 2rem;
+  color: #E65100;
 }
 
 .promise-text {
@@ -361,151 +435,39 @@ body, html {
   color: #5D4037;
 }
 
-/* Utility Classes */
-.hidden {
-  display: none !important;
-}
-
-.fade-in {
-  animation: fadeIn 0.8s ease forwards;
-}
-
-@keyframes fadeIn {
-  from {
-    opacity: 0;
-    transform: translateY(15px) scale(0.98);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0) scale(1);
-  }
-}
-
-/* Floating Heart / Flower particle effect during celebration */
-.floating-element {
-  position: fixed;
-  pointer-events: none;
-  z-index: 100;
-  animation: floatUpAndFade 3s ease-out forwards;
-}
-
-@keyframes floatUpAndFade {
-  0% {
-    opacity: 1;
-    transform: translateY(0) scale(0.8) rotate(0deg);
-  }
-  100% {
-    opacity: 0;
-    transform: translateY(-120px) scale(1.4) rotate(45deg);
-  }
-}
-
-/* Responsive Styles */
+/* --- RESPONSIVE MEDIA QUERIES --- */
 @media (max-width: 600px) {
-  .app-container {
-    width: 94%;
-    margin: 12px auto;
-  }
-
-  .vine-decoration svg {
-    width: 75px;
-    height: 75px;
-  }
-
-  .card {
-    padding: 28px 18px;
-    border-radius: 22px;
-  }
-
   .romantic-title {
-    font-size: 2.3rem;
+    font-size: 2.2rem;
   }
-
-  .credit-subtitle {
-    font-size: 1.2rem;
-  }
-
   .romantic-question {
     font-size: 1.8rem;
   }
-
+  .card {
+    padding: 24px 18px;
+    border-radius: 22px;
+  }
   .poem-verse {
-    font-size: 1.4rem;
+    font-size: 1.45rem;
   }
-
   .font-highlight {
-    font-size: 1.75rem;
+    font-size: 1.65rem;
   }
-
-  .paper-texture {
-    padding: 18px 12px;
-  }
-
-  .buttons-container {
-    gap: 14px;
-  }
-
-  .yes-btn {
-    font-size: 1.2rem;
-    padding: 12px 28px;
-  }
-
-  .no-btn {
-    font-size: 1rem;
-    padding: 10px 22px;
+  .vine-decoration svg {
+    width: 80px;
+    height: 80px;
   }
 }
 
 @media (max-width: 380px) {
-  .app-container {
-    width: 96%;
-    margin: 8px auto;
-  }
-
-  .vine-decoration svg {
-    width: 55px;
-    height: 55px;
-    opacity: 0.6;
-  }
-
-  .card {
-    padding: 22px 14px;
-    border-radius: 18px;
-  }
-
-  .flower-header-badge {
-    font-size: 2.2rem;
-    margin-bottom: 6px;
-  }
-
   .romantic-title {
-    font-size: 1.95rem;
+    font-size: 1.9rem;
   }
-
-  .romantic-subtitle {
-    font-size: 1rem;
-    margin-bottom: 20px;
-  }
-
-  .credit-subtitle {
-    font-size: 1.1rem;
-  }
-
   .romantic-question {
-    font-size: 1.55rem;
-  }
-
-  .romantic-input {
-    padding: 12px 14px;
-    font-size: 1rem;
-  }
-
-  .poem-verse {
-    font-size: 1.25rem;
-    line-height: 1.4;
-  }
-
-  .font-highlight {
     font-size: 1.5rem;
+  }
+  .yellow-btn {
+    padding: 12px 24px;
+    font-size: 1.05rem;
   }
 }

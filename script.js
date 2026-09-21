@@ -1,14 +1,25 @@
-// --- STATE & DOM ELEMENTS ---
-let noClickCount = 0;
-
-const NO_MESSAGES = [
-  "Are you sure? 🥺🌼",
-  "Maybe think about it one more time? 💛",
-  "My heart is still waiting… 🌼",
-  "I’ll ask you just one more time. 🥹💛"
+// --- MESSAGES DATA ---
+const MESSAGES = [
+  { text: "Hi Nikol kanang hi hehe", anim: "" },
+  { text: "Hi my Crush", anim: "sweet-bounce", icon: "🥰💛" },
+  { text: "Hi Nicholas", anim: "flower-spin", icon: "🌼" },
+  { text: "Hi my Matcha Lover", anim: "", icon: "🍵✨" },
+  { text: "Hi my yellow", anim: "sweet-bounce", icon: "💛🌼" },
+  { text: "Hi my Dog whisperer", anim: "", icon: "🐶💛" },
+  { text: "Hi my Leader", anim: "", icon: "👑✨" },
+  { text: "Ge kapoy naka no? HAHAHAHAH", anim: "laugh-wiggle", icon: "😂💛" },
+  { text: "Last nani Promised", anim: "", icon: "🤙🌼" },
+  { text: "Hi my singer My vocalist", anim: "music-float", icon: "🎵🎤" },
+  { text: "Last na gud ni AHAHAHAHH", anim: "laugh-wiggle", icon: "😆💛" },
+  { text: "Hala Ulawa oi na abot naka diri hehe", anim: "blush-glow", icon: "🙈😳" },
+  { text: "I love you Crush 💛", anim: "heart-pulse", icon: "💛" }
 ];
 
-// Canvas setup for yellow petals animation
+let currentMessageIndex = 0;
+let trapNoClickCount = 0;
+let finalNoClickCount = 0;
+
+// --- CANVAS PETALS ANIMATION ---
 const canvas = document.getElementById('petalCanvas');
 const ctx = canvas.getContext('2d');
 let petals = [];
@@ -25,7 +36,6 @@ window.addEventListener('orientationchange', () => {
 });
 resizeCanvas();
 
-// --- PETAL CLASS ---
 class Petal {
   constructor() {
     this.reset();
@@ -41,14 +51,7 @@ class Petal {
     this.rotSpeed = (Math.random() - 0.5) * 0.03;
     this.opacity = 0.6 + Math.random() * 0.4;
 
-    // Palette of warm yellow petals
-    const colors = [
-      '#FFF59D', // Soft pastel yellow
-      '#FFE082', // Gentle yellow
-      '#FFD54F', // Warm golden yellow
-      '#FBC02D', // Bright gold
-      '#FFFDE7'  // Cream yellow
-    ];
+    const colors = ['#FFF59D', '#FFE082', '#FFD54F', '#FBC02D', '#FFFDE7'];
     this.color = colors[Math.floor(Math.random() * colors.length)];
     this.type = Math.random() > 0.3 ? 'petal' : 'flower';
   }
@@ -70,7 +73,6 @@ class Petal {
     ctx.globalAlpha = this.opacity;
 
     if (this.type === 'petal') {
-      // Draw single petal shape
       ctx.beginPath();
       ctx.fillStyle = this.color;
       ctx.moveTo(0, 0);
@@ -78,7 +80,6 @@ class Petal {
       ctx.bezierCurveTo(this.size / 2, -this.size, this.size / 2, -this.size / 2, 0, 0);
       ctx.fill();
     } else {
-      // Draw small cute 5-petal flower
       ctx.fillStyle = this.color;
       for (let i = 0; i < 5; i++) {
         ctx.rotate((Math.PI * 2) / 5);
@@ -86,7 +87,6 @@ class Petal {
         ctx.arc(0, this.size * 0.4, this.size * 0.35, 0, Math.PI * 2);
         ctx.fill();
       }
-      // Center dot
       ctx.beginPath();
       ctx.fillStyle = '#F57F17';
       ctx.arc(0, 0, this.size * 0.2, 0, Math.PI * 2);
@@ -101,7 +101,7 @@ function initPetals(count = 35) {
   petals = [];
   for (let i = 0; i < count; i++) {
     const p = new Petal();
-    p.y = Math.random() * canvas.height; // Scatter initially
+    p.y = Math.random() * canvas.height;
     petals.push(p);
   }
 }
@@ -118,21 +118,19 @@ function animatePetals() {
 initPetals();
 animatePetals();
 
-// --- LOGIN LOGIC ---
+// --- 1. LOGIN LOGIC ---
 function handleLogin(event) {
   event.preventDefault();
   const passwordInput = document.getElementById('passwordInput');
   const errorMessage = document.getElementById('errorMessage');
   const loginScreen = document.getElementById('loginScreen');
   const welcomeScreen = document.getElementById('welcomeScreen');
-  const mainScreen = document.getElementById('mainScreen');
 
   const enteredPassword = passwordInput.value.trim();
 
   if (enteredPassword.toUpperCase() === 'BABY') {
     errorMessage.classList.add('hidden');
 
-    // Fade out login screen
     loginScreen.style.opacity = '0';
     loginScreen.style.transform = 'translateY(-20px)';
 
@@ -140,27 +138,12 @@ function handleLogin(event) {
       loginScreen.classList.add('hidden');
       welcomeScreen.classList.remove('hidden');
       welcomeScreen.classList.add('fade-in');
-
-      // Floating flower burst for welcome animation
       spawnWelcomeBurst();
-
-      // After 3 seconds, transition smoothly to main proposal screen
-      setTimeout(() => {
-        welcomeScreen.style.opacity = '0';
-        welcomeScreen.style.transform = 'translateY(-20px)';
-
-        setTimeout(() => {
-          welcomeScreen.classList.add('hidden');
-          mainScreen.classList.remove('hidden');
-          mainScreen.classList.add('fade-in');
-        }, 400);
-      }, 3000);
     }, 400);
   } else {
     errorMessage.classList.remove('hidden');
-    // Trigger re-shake animation
     errorMessage.style.animation = 'none';
-    errorMessage.offsetHeight; // trigger reflow
+    errorMessage.offsetHeight;
     errorMessage.style.animation = 'shake 0.4s ease-in-out';
     passwordInput.value = '';
     passwordInput.focus();
@@ -186,52 +169,177 @@ function spawnWelcomeBurst() {
   }
 }
 
-// --- NO BUTTON INTERACTION ---
-function handleNoClick() {
-  const yesBtn = document.getElementById('yesBtn');
-  const noBtn = document.getElementById('noBtn');
-  const questionText = document.getElementById('questionText');
+// --- 2. MESSAGE SEQUENCE LOGIC ---
+function startMessageSequence() {
+  const welcomeScreen = document.getElementById('welcomeScreen');
+  const messageScreen = document.getElementById('messageScreen');
 
-  // Change question or display encouraging text in NO button/question
-  if (noClickCount < NO_MESSAGES.length) {
-    questionText.innerText = NO_MESSAGES[noClickCount];
-  } else {
-    questionText.innerText = NO_MESSAGES[NO_MESSAGES.length - 1];
+  welcomeScreen.style.opacity = '0';
+  welcomeScreen.style.transform = 'translateY(-20px)';
+
+  setTimeout(() => {
+    welcomeScreen.classList.add('hidden');
+    messageScreen.classList.remove('hidden');
+    messageScreen.classList.add('fade-in');
+    renderMessage(0);
+  }, 400);
+}
+
+function renderMessage(index) {
+  currentMessageIndex = index;
+  const msgObj = MESSAGES[index];
+  const messageText = document.getElementById('messageText');
+  const animContainer = document.getElementById('messageAnimationContainer');
+
+  messageText.innerText = msgObj.text;
+  animContainer.innerHTML = '';
+
+  if (msgObj.icon || msgObj.anim) {
+    const iconEl = document.createElement('div');
+    iconEl.innerText = msgObj.icon || '🌼';
+    if (msgObj.anim) {
+      iconEl.className = msgObj.anim;
+    }
+    animContainer.appendChild(iconEl);
   }
+}
 
-  noClickCount++;
+function nextMessage() {
+  if (currentMessageIndex < MESSAGES.length - 1) {
+    const messageScreen = document.getElementById('messageScreen');
+    messageScreen.classList.remove('fade-in');
+    void messageScreen.offsetWidth; // trigger reflow
+    messageScreen.classList.add('fade-in');
+    renderMessage(currentMessageIndex + 1);
+  } else {
+    // Transition to Trap Page
+    showTrapPage();
+  }
+}
 
-  // Progressively make YES button larger without breaking layout or obscuring NO button on mobile
+// --- 3. TRAP PAGE LOGIC ---
+function showTrapPage() {
+  const messageScreen = document.getElementById('messageScreen');
+  const trapScreen = document.getElementById('trapScreen');
+
+  messageScreen.style.opacity = '0';
+  messageScreen.style.transform = 'translateY(-20px)';
+
+  setTimeout(() => {
+    messageScreen.classList.add('hidden');
+    trapScreen.classList.remove('hidden');
+    trapScreen.classList.add('fade-in');
+  }, 400);
+}
+
+function handleTrapNoClick() {
+  const yesBtn = document.getElementById('trapYesBtn');
+  const noBtn = document.getElementById('trapNoBtn');
+
+  trapNoClickCount++;
+
   const isMobile = window.innerWidth <= 480;
-  const scale = 1 + noClickCount * (isMobile ? 0.12 : 0.25);
-  const paddingY = (isMobile ? 10 : 14) + noClickCount * (isMobile ? 2 : 4);
-  const paddingX = (isMobile ? 24 : 38) + noClickCount * (isMobile ? 5 : 10);
-  const fontSize = (isMobile ? 1.1 : 1.3) + noClickCount * (isMobile ? 0.08 : 0.15);
+  const scale = 1 + trapNoClickCount * (isMobile ? 0.15 : 0.28);
+  const paddingY = (isMobile ? 10 : 14) + trapNoClickCount * (isMobile ? 2 : 4);
+  const paddingX = (isMobile ? 24 : 38) + trapNoClickCount * (isMobile ? 5 : 10);
+  const fontSize = (isMobile ? 1.1 : 1.3) + trapNoClickCount * (isMobile ? 0.08 : 0.15);
 
   yesBtn.style.transform = `scale(${scale})`;
   yesBtn.style.padding = `${paddingY}px ${paddingX}px`;
   yesBtn.style.fontSize = `${fontSize}rem`;
 
-  // Slight playful offset for NO button
   noBtn.style.transform = `translate(${(Math.random() - 0.5) * 15}px, ${(Math.random() - 0.5) * 10}px)`;
 }
 
-// --- YES BUTTON CELEBRATION ---
-function handleYesClick() {
-  const mainScreen = document.getElementById('mainScreen');
-  const celebrationScreen = document.getElementById('celebrationScreen');
+function handleTrapYesClick() {
+  const trapScreen = document.getElementById('trapScreen');
+  trapScreen.classList.add('hidden');
 
-  // Increase background petal burst
-  initPetals(80);
+  // Trigger 5-second romantic flower animation overlay
+  startFlowerOverlayAnimation();
+}
 
-  // Trigger floating hearts & yellow flowers burst
-  spawnCelebrationBurst();
+// --- 4 & 5. 5-SECOND FLOWER ANIMATION & HIDDEN BUTTON ---
+function startFlowerOverlayAnimation() {
+  const overlay = document.getElementById('flowerOverlay');
+  const garden = document.getElementById('overlayFlowerGarden');
+  const hiddenPopup = document.getElementById('hiddenPopup');
+  const hiddenBtn = document.getElementById('hiddenClickBtn');
 
-  mainScreen.style.opacity = '0';
-  mainScreen.style.transform = 'scale(0.95)';
+  overlay.classList.remove('hidden');
+  garden.innerHTML = '';
+  hiddenPopup.classList.add('hidden');
+  hiddenBtn.classList.add('hidden');
+
+  const flowerIcons = ['🌼', '🌸', '🌺', '🌻', '💛', '✨', '🌼'];
+
+  // Fill screen gradually over 5 seconds
+  const interval = setInterval(() => {
+    for (let i = 0; i < 4; i++) {
+      const flower = document.createElement('div');
+      flower.className = 'blooming-flower';
+      flower.innerText = flowerIcons[Math.floor(Math.random() * flowerIcons.length)];
+      flower.style.left = `${Math.random() * 92}vw`;
+      flower.style.top = `${Math.random() * 92}vh`;
+      flower.style.fontSize = `${2 + Math.random() * 2.5}rem`;
+      garden.appendChild(flower);
+    }
+  }, 100);
 
   setTimeout(() => {
-    mainScreen.classList.add('hidden');
+    clearInterval(interval);
+
+    // Show Notification Popup & Hidden Button
+    hiddenPopup.classList.remove('hidden');
+
+    // Place hidden button randomly near middle/bottom flowers
+    hiddenBtn.style.left = `${20 + Math.random() * 60}vw`;
+    hiddenBtn.style.top = `${40 + Math.random() * 40}vh`;
+    hiddenBtn.classList.remove('hidden');
+  }, 5000);
+}
+
+function handleHiddenBtnClick() {
+  const overlay = document.getElementById('flowerOverlay');
+  const finalScreen = document.getElementById('finalScreen');
+
+  overlay.classList.add('hidden');
+  finalScreen.classList.remove('hidden');
+  finalScreen.classList.add('fade-in');
+}
+
+// --- 6. FINAL MAIN QUESTION LOGIC ---
+function handleFinalNoClick() {
+  const yesBtn = document.getElementById('finalYesBtn');
+  const noBtn = document.getElementById('finalNoBtn');
+
+  finalNoClickCount++;
+
+  const isMobile = window.innerWidth <= 480;
+  const scale = 1 + finalNoClickCount * (isMobile ? 0.15 : 0.3);
+  const paddingY = (isMobile ? 10 : 14) + finalNoClickCount * (isMobile ? 2 : 5);
+  const paddingX = (isMobile ? 24 : 38) + finalNoClickCount * (isMobile ? 5 : 12);
+  const fontSize = (isMobile ? 1.1 : 1.3) + finalNoClickCount * (isMobile ? 0.08 : 0.18);
+
+  yesBtn.style.transform = `scale(${scale})`;
+  yesBtn.style.padding = `${paddingY}px ${paddingX}px`;
+  yesBtn.style.fontSize = `${fontSize}rem`;
+
+  noBtn.style.transform = `translate(${(Math.random() - 0.5) * 15}px, ${(Math.random() - 0.5) * 10}px)`;
+}
+
+function handleFinalYesClick() {
+  const finalScreen = document.getElementById('finalScreen');
+  const celebrationScreen = document.getElementById('celebrationScreen');
+
+  initPetals(80);
+  spawnCelebrationBurst();
+
+  finalScreen.style.opacity = '0';
+  finalScreen.style.transform = 'scale(0.95)';
+
+  setTimeout(() => {
+    finalScreen.classList.add('hidden');
     celebrationScreen.classList.remove('hidden');
     celebrationScreen.classList.add('fade-in');
   }, 400);

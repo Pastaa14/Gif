@@ -21,21 +21,14 @@
     <svg viewBox="0 0 120 120" width="120" height="120">
       <path d="M 0,0 Q 60,10 90,90" fill="none" stroke="#7CB342" stroke-width="3" stroke-linecap="round" />
       <path d="M 20,5 Q 50,30 70,20" fill="none" stroke="#689F38" stroke-width="2" />
-      <!-- Leaf 1 -->
       <path d="M 30,12 C 20,25 35,35 40,25 C 38,18 32,10 30,12 Z" fill="#8BC34A" opacity="0.8" />
-      <!-- Leaf 2 -->
       <path d="M 60,35 C 50,50 65,60 70,50 C 68,43 62,35 60,35 Z" fill="#7CB342" opacity="0.8" />
-      <!-- Freesia Flower 1 -->
       <g transform="translate(85, 85)">
         <circle cx="0" cy="0" r="6" fill="#FBC02D"/>
         <path d="M 0,-15 C -5,-8 -5,0 0,0 C 5,0 5,-8 0,-15 Z" fill="#FFE082"/>
         <path d="M 0,15 C -5,8 -5,0 0,0 C 5,0 5,8 0,15 Z" fill="#FFE082"/>
         <path d="M -15,0 C -8,-5 0,-5 0,0 C 0,5 -8,5 -15,0 Z" fill="#FFD54F"/>
         <path d="M 15,0 C 8,-5 0,-5 0,0 C 0,5 8,5 15,0 Z" fill="#FFD54F"/>
-        <path d="M -11,-11 C -5,-5 0,-5 0,0 C -5,0 -5,-5 -11,-11 Z" fill="#FFF59D"/>
-        <path d="M 11,11 C 5,5 0,5 0,0 C 5,0 5,5 11,11 Z" fill="#FFF59D"/>
-        <path d="M -11,11 C -5,5 0,5 0,0 C -5,0 -5,5 -11,11 Z" fill="#FFF59D"/>
-        <path d="M 11,-11 C 5,-5 0,-5 0,0 C 5,0 5,-5 11,-11 Z" fill="#FFF59D"/>
         <circle cx="0" cy="0" r="4" fill="#F57F17"/>
       </g>
     </svg>
@@ -118,27 +111,61 @@
       <div class="flower-header-badge floating-flower">🌼💛🌼</div>
       <h1 class="romantic-title">Welcome, Freesia Nichole Quilalang 🌼💛</h1>
       <p class="romantic-subtitle credit-subtitle">Created by: Crush nimo ❤️</p>
+      <div class="button-wrapper">
+        <button id="welcomeNextBtn" class="yellow-btn next-btn" onclick="startMessageSequence()">
+          Next →
+        </button>
+      </div>
     </section>
 
-    <!-- MAIN PROPOSAL SCREEN -->
-    <section id="mainScreen" class="card hidden">
+    <!-- MESSAGE SEQUENCE SCREEN -->
+    <section id="messageScreen" class="card hidden">
       <div class="flower-header-badge floating-flower">🌼</div>
-      <h1 class="romantic-title">Freesia Nikol 🌼</h1>
-      <h2 id="questionText" class="romantic-question">Will you be my girlfriend? 💛</h2>
+      <div id="messageAnimationContainer" class="message-animation"></div>
+      <h1 id="messageText" class="romantic-title message-title"></h1>
+      <div class="button-wrapper">
+        <button id="messageNextBtn" class="yellow-btn next-btn" onclick="nextMessage()">
+          Next →
+        </button>
+      </div>
+    </section>
+
+    <!-- TRAP PAGE SCREEN -->
+    <section id="trapScreen" class="card hidden">
+      <div class="flower-header-badge floating-flower">😭🌼</div>
+      <h1 class="romantic-title trap-title">Trap ni 😭 Ayaw og sulod</h1>
 
       <div class="buttons-container">
-        <button id="yesBtn" class="yellow-btn yes-btn" onclick="handleYesClick()">
-          YES 🌼
+        <button id="trapYesBtn" class="yellow-btn yes-btn" onclick="handleTrapYesClick()">
+          YES 💛
         </button>
-        <button id="noBtn" class="yellow-btn no-btn" onclick="handleNoClick()">
+        <button id="trapNoBtn" class="yellow-btn no-btn" onclick="handleTrapNoClick()">
           NO 🥺
         </button>
       </div>
     </section>
 
-    <!-- CELEBRATION / POEM SCREEN -->
+    <!-- FINAL MAIN QUESTION SCREEN -->
+    <section id="finalScreen" class="card hidden">
+      <div class="flower-header-badge floating-flower">🌼</div>
+      <h1 class="romantic-title">Freesia Nikol 🌼</h1>
+      <h2 id="finalQuestionText" class="romantic-question">Will you be my girlfriend? 💛</h2>
+
+      <div class="buttons-container">
+        <button id="finalYesBtn" class="yellow-btn yes-btn" onclick="handleFinalYesClick()">
+          YES 🌼
+        </button>
+        <button id="finalNoBtn" class="yellow-btn no-btn" onclick="handleFinalNoClick()">
+          NO 🥺
+        </button>
+      </div>
+    </section>
+
+    <!-- CELEBRATION SCREEN -->
     <section id="celebrationScreen" class="card hidden celebration-card">
       <div class="flower-header-badge pulse-flower">🌼💛🌼</div>
+
+      <h1 class="romantic-title celebration-main-title">You said YES! 🌼💛</h1>
 
       <div class="poem-container">
         <div class="poem-card paper-texture">
@@ -172,6 +199,17 @@
       </div>
     </section>
   </main>
+
+  <!-- FULL SCREEN FLOWER ANIMATION OVERLAY -->
+  <div id="flowerOverlay" class="flower-overlay hidden">
+    <div id="overlayFlowerGarden" class="overlay-flower-garden"></div>
+    <div id="hiddenPopup" class="hidden-popup hidden">
+      <p class="popup-text">Find the button… 👀🌼</p>
+    </div>
+    <button id="hiddenClickBtn" class="hidden-click-btn hidden" onclick="handleHiddenBtnClick()">
+      CLICK HERE 🌼
+    </button>
+  </div>
 
   <script src="script.js"></script>
 </body>
