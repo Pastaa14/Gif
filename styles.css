@@ -156,6 +156,14 @@ body, html {
   font-style: italic;
 }
 
+.credit-subtitle {
+  font-size: 1.35rem;
+  color: var(--color-dark-gold);
+  font-weight: 700;
+  margin-top: 15px;
+  font-style: normal;
+}
+
 .romantic-question {
   font-family: 'Caveat', cursive;
   font-size: 2.4rem;

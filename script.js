@@ -121,6 +121,7 @@ function handleLogin(event) {
   const passwordInput = document.getElementById('passwordInput');
   const errorMessage = document.getElementById('errorMessage');
   const loginScreen = document.getElementById('loginScreen');
+  const welcomeScreen = document.getElementById('welcomeScreen');
   const mainScreen = document.getElementById('mainScreen');
 
   const enteredPassword = passwordInput.value.trim();
@@ -128,14 +129,29 @@ function handleLogin(event) {
   if (enteredPassword.toUpperCase() === 'BABY') {
     errorMessage.classList.add('hidden');
 
-    // Smooth transition
+    // Fade out login screen
     loginScreen.style.opacity = '0';
     loginScreen.style.transform = 'translateY(-20px)';
 
     setTimeout(() => {
       loginScreen.classList.add('hidden');
-      mainScreen.classList.remove('hidden');
-      mainScreen.classList.add('fade-in');
+      welcomeScreen.classList.remove('hidden');
+      welcomeScreen.classList.add('fade-in');
+
+      // Floating flower burst for welcome animation
+      spawnWelcomeBurst();
+
+      // After 3 seconds, transition smoothly to main proposal screen
+      setTimeout(() => {
+        welcomeScreen.style.opacity = '0';
+        welcomeScreen.style.transform = 'translateY(-20px)';
+
+        setTimeout(() => {
+          welcomeScreen.classList.add('hidden');
+          mainScreen.classList.remove('hidden');
+          mainScreen.classList.add('fade-in');
+        }, 400);
+      }, 3000);
     }, 400);
   } else {
     errorMessage.classList.remove('hidden');
@@ -145,6 +161,25 @@ function handleLogin(event) {
     errorMessage.style.animation = 'shake 0.4s ease-in-out';
     passwordInput.value = '';
     passwordInput.focus();
+  }
+}
+
+function spawnWelcomeBurst() {
+  const icons = ['🌼', '💛', '✨', '💛', '🌼'];
+  for (let i = 0; i < 15; i++) {
+    setTimeout(() => {
+      const el = document.createElement('div');
+      el.className = 'floating-element';
+      el.innerText = icons[Math.floor(Math.random() * icons.length)];
+      el.style.left = `${15 + Math.random() * 70}vw`;
+      el.style.top = `${60 + Math.random() * 30}vh`;
+      el.style.fontSize = `${1.5 + Math.random() * 1.2}rem`;
+      document.body.appendChild(el);
+
+      setTimeout(() => {
+        el.remove();
+      }, 3000);
+    }, i * 120);
   }
 }
 
